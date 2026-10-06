@@ -9,6 +9,8 @@ public interface NotificationService {
 
     void createConnectionNotification(ConnectionRequestCreatedEvent event);
 
+    void acceptConnectionNotification(ConnectionRequestCreatedEvent event);
+
     List<NotificationDto>getAllNotification(Long userId);
 
     void markAllAsRead(Long userId);

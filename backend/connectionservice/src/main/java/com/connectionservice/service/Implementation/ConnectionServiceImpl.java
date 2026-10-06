@@ -154,14 +154,23 @@ public class ConnectionServiceImpl implements ConnectionService {
 
         connection = connectionRepository.save(connection);
 
-        LoginResponse user = userClient.findUserById(connection.getSenderId());
+        LoginResponse userSender = userClient.findUserById(connection.getSenderId());
+        LoginResponse userReceiver = userClient.findUserById(connection.getReceiverId());
+
+        ConnectionRequestCreatedEvent event =ConnectionRequestCreatedEvent.builder()
+                .receiverId(connection.getSenderId())
+                .senderId(connection.getReceiverId())
+                .senderName(userReceiver.getName())
+                .build();
+
+        connectionEventProducer.publish("connection-request-accept",event);
 
         return ConnectionDto.builder()
                 .connectionId(connection.getId())
                 .userId(connection.getSenderId()) // <-- sender
-                .name(user.getName())
-                .profileImage(user.getProfileImage())
-                .username(user.getUsername())
+                .name(userSender.getName())
+                .profileImage(userSender.getProfileImage())
+                .username(userSender.getUsername())
                 .status(connection.getStatus())
                 .build();
     }

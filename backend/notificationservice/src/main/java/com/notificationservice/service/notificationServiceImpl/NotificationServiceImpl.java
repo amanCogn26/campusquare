@@ -54,15 +54,13 @@ public class NotificationServiceImpl implements NotificationService {
                 .actorId(event.getSenderId())
                 .receiverId(event.getReceiverId())
                 .message(event.getSenderName()
-                        + " accept your connection request")
+                        + " accepted your connection request")
                 .type("CONNECTION_ACCEPT")
                 .isRead(false)
                 .createdAt(LocalDateTime.now())
                 .build();
 
-        notificationRepository.save(notification);
-
-
+        notification = notificationRepository.save(notification);
 
         simpMessagingTemplate.convertAndSend(
                 "/topic/notification/" + event.getReceiverId(),
@@ -105,4 +103,17 @@ public class NotificationServiceImpl implements NotificationService {
 
         notificationRepository.saveAll(notifications);
     }
+
+//    public Long countUnreadNotification(Long userId) {
+//
+//        List<Notification> notifications =
+//                notificationRepository.findAllByReceiverId(userId);
+//
+//        notifications.forEach(notification ->
+//                notification.setRead(true));
+//
+//        notificationRepository.saveAll(notifications);
+//
+//        return 5;
+//    }
 }
