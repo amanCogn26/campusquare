@@ -1,0 +1,124 @@
+<div class="h-[calc(100vh-130px)] p-4 overflow-hidden w-180">
+
+    <div class="chat-container flex h-full bg-white rounded-lg shadow">
+
+        <!-- Connections Panel -->
+        <div class="w-60 border-r flex flex-col">
+
+            <div class="p-4 border-b">
+                <h2 class="text-xl font-semibold">
+                    Connections
+                </h2>
+            </div>
+
+            <div class="flex-1 overflow-y-auto ">
+                <div *ngFor="let connection of connections" (click)="selectConnection(connection)"
+                    class="px-4 py-3 flex gap-4 border-b cursor-pointer hover:bg-gray-100 shadow-2xl">
+
+                    @if (!connection.profileImage) {
+                    <div
+                        class="w-10 h-10 text-lg rounded-full bg-blue-500 text-white flex items-center justify-center font-semibold">
+                        {{ connection.name.charAt(0) | uppercase }}
+                    </div>
+                    }
+                    @else {
+                    <img [src]="connection.profileImage" [alt]="connection.name"
+                        class="w-10 h-10 rounded-full object-cover">
+                    }
+
+                    <h1 class="self-start font-semibold text-md">
+                        {{ connection.name }}
+                    </h1>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Chat Panel -->
+        <div class="flex-1 flex flex-col">
+
+            <!-- Header -->
+            <div class="h-15 border-b px-8 flex items-center gap-6" *ngIf="selectedConnection">
+
+                @if (!selectedConnection.profileImage) {
+                <div
+                    class="w-12 h-12 text-2xl rounded-full bg-blue-500 text-white flex items-center justify-center font-semibold">
+                    {{ selectedConnection.name.charAt(0) | uppercase }}
+                </div>
+                }
+                @else {
+                <img [src]="selectedConnection.profileImage" [alt]="selectedConnection.name"
+                    class="w-12 h-12 rounded-full object-cover">
+                }
+
+                <div class="text-2xl font-medium self-start">{{ selectedConnection.name}}</div>
+            </div>
+
+            <div class="h-15 border-b px-4 flex items-center font-medium justify-center" *ngIf="!selectedConnection">
+                {{ 'Select a chat' }}
+            </div>
+
+
+            <!-- Messages -->
+            <div class="flex-1 overflow-y-auto p-4 bg-gray-50 overflow-x-hidden" id="chat-box">
+
+                <div *ngIf="messages.length===0" class="self-center">
+                    Start Conversation
+                </div>
+
+                <div *ngFor="let message of messages">
+
+                    <!-- Sent message -->
+                    <div *ngIf="message.senderId === currentUserId" class="flex justify-end mb-2">
+
+                        <div
+                            class="max-w-xs bg-blue-500 text-white px-4 rounded-sm break-all whitespace-pre-wrap flex flex-col">
+
+                            <p class="">{{ message.content }}</p>
+
+                            <h6 class="text-xs  font-extralight self-end">
+                                {{ message.sentAt | date:'shortTime' }}
+                            </h6>
+                        </div>
+                    </div>
+
+
+                    <!-- Received message -->
+                    <div *ngIf="message.senderId !== currentUserId" class="flex justify-start mb-2">
+                        <div
+                            class="bg-gray-200 text-black px-4 rounded-sm max-w-xs gap-2 break-all whitespace-pre-wrap flex flex-col">
+
+                            <p>{{ message.content }}</p>
+
+                            <p class="text-xs self-end font-extralight">
+                                {{ message.sentAt | date:'shortTime' }}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Message Box -->
+            <div class="border-t p-4 flex gap-2">
+
+                <input class="flex-1 border rounded-lg px-4 py-2 break-all" placeholder="Type a message"
+                    [(ngModel)]="textMessage">
+
+                <button class="bg-blue-500 text-white px-4 py-2 rounded-lg cursor-pointer" (click)="sendMessage()">
+
+                    Send
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

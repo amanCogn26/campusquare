@@ -1,0 +1,102 @@
+<div class="max-w-3xl mx-auto p-6">
+
+    <!-- Header -->
+    <div class="bg-white rounded-2xl shadow-md p-4 mb-2">
+
+        <h1 class="text-2xl font-bold text-gray-800">
+            My Network
+        </h1>
+
+        <p class="text-gray-500 mt-2">
+            Connect with students from your college.
+        </p>
+
+    </div>
+
+    <!-- Search -->
+    <!-- <div class="bg-blue-600 rounded-2xl shadow-md p-2">
+
+        <input type="text" placeholder="Search students..."
+            class="bg-white w-full border rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-600">
+
+    </div> -->
+
+    <div class="bg-white rounded-xl shadow-sm px-6 py-4">
+
+        <h2 class="text-xl font-semibold mb-4">
+            People You May Know
+        </h2>
+
+        <div class="flex flex-col gap-2 max-w-3xl">
+
+            @for(user of userDto; track user.id){
+
+            <!-- Profile -->
+            <div class="p-4 flex items-center justify-between border rounded-2xl w-full">
+
+                <div class="flex gap-5 items-start">
+                    @if (user.profileImage===null) {
+                    <div
+                        class="w-12 h-12 rounded-full border-2 border-blue-700 text-center font-semibold text-3xl object-cover">
+                        {{user.name.charAt(0) | uppercase}}</div>
+                    }@else{
+                    <img [src]="user.profileImage" class="w-12 h-12 rounded-full border-4 border-white object-cover">
+                    }
+
+                    <h3 class="font-bold text-center">
+                        {{ user?.name | uppercase}}
+                    </h3>
+                </div>
+
+                <!-- buttom -->
+
+                <div class="flex gap-3">
+
+                    <button
+                        *ngIf="connectionMap[user.id]?.requestReceived && connectionMap[user.id]?.status ==='PENDING'"
+                        class="bg-green-600 text-white px-3 py-2 rounded-full hover:bg-green-700"
+                        (click)="acceptConnectionRequest(connectionMap[user.id]!.connectionId)">
+                        ACCEPT
+                    </button>
+
+                    <button *ngIf="
+                                !connectionMap[user.id]?.requestReceived &&
+                                connectionMap[user.id]?.status === 'PENDING'
+                            " class="bg-gray-500 text-white px-3 py-2 rounded-full" disabled>
+                        PENDING
+                    </button>
+                    <button *ngIf="
+                                connectionMap[user.id]?.requestReceived &&
+                                connectionMap[user.id]?.status === 'PENDING'
+                            " class="bg-gray-500 text-white px-3 py-2 rounded-full"
+                        (click)="rejectConnectionRequest(connectionMap[user.id]!.connectionId)">
+                        REJECT
+                    </button>
+
+                    <button *ngIf="
+                                connectionMap[user.id]?.status === 'ACCEPTED'
+                            " class="bg-green-600 text-white px-3 py-2 rounded-full" disabled>
+                        CONNECTED
+                    </button>
+
+                    <button *ngIf="!connectionMap[user.id] || 
+                                connectionMap[user.id]?.status === 'REJECTED'" (click)="sendConnectionRequest(user.id)"
+                        class="bg-blue-600 text-white px-3 py-2 rounded-full hover:bg-blue-700">
+                        CONNECT
+                    </button>
+                    <button *ngIf="connectionMap[user.id]?.status === 'ACCEPTED'" (click)="removeConnection(connectionMap[user.id].connectionId,user.id)"
+                        class="bg-blue-600 text-white px-3 py-2 rounded-full hover:bg-blue-700">
+                        REMOVE
+                    </button>
+
+                </div>
+
+            </div>
+
+            }
+
+        </div>
+
+    </div>
+
+</div>

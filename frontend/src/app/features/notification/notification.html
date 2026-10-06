@@ -1,0 +1,56 @@
+<div class="max-w-3xl mx-auto p-6">
+
+    <!-- Header -->
+    <div class="bg-white rounded-2xl shadow-md p-5 mb-4 flex justify-between">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-800">
+                Notifications
+            </h1>
+            <p class="text-gray-500 mt-1">
+                Stay updated with your latest activities
+            </p>
+        </div>
+        <div (click)="markAllAsRead()" class="cursor-pointer text-blue-600 font-bold text-sm">
+            Mark all read
+        </div>
+    </div>
+
+    <!-- Notification List -->
+    <div class="bg-white rounded-2xl shadow-md overflow-hidden">
+
+        <div *ngIf="notificationDto.length==0" class="text-center py-8 font-bold text-2xl">Notification Is Unavailable</div>
+
+        <div *ngFor="let notification of notificationDto">
+
+            <!-- Notification Item -->
+            <div class="p-4 border-b hover:bg-gray-50 flex items-start gap-4">
+
+                <div class="w-12 h-12 rounded-full bg-blue-600 text-white font-semibold
+                    flex items-center justify-center text-3xl">
+                    {{ notification.message.charAt(0)| uppercase}}
+                </div>
+
+                <div class="flex-1">
+                    <p class="text-gray-800">
+                        <span class="font-semibold">
+                            {{ (userName?.charAt(0) | uppercase) +''+ (userName?.substring(1))}}
+                        </span>
+                        {{ notification.message }}
+                    </p>
+
+                    <p class="text-xs text-gray-500 mt-1">
+                        {{ notification.createdAt | date:'shortTime' }}
+                    </p>
+                </div>
+
+                <span *ngIf="notification.isRead"
+                    class="bg-red-100 text-red-600 text-xs font-semibold px-2 py-1 rounded-full">
+                    NEW
+                </span>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>

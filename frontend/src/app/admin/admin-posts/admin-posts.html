@@ -1,0 +1,8 @@
+
+<div class="h-screen max-w-xl mx-auto">
+
+    <div *ngIf="posts.length==0" class="text-center">Post Is Unavailable</div>
+    <div *ngFor="let post of posts">
+       <app-post [post]="post"></app-post>
+    </div>
+</div>

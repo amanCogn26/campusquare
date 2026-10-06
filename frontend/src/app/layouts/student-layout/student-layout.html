@@ -1,0 +1,12 @@
+<div>
+    <app-navbar></app-navbar>
+    <div class="flex">
+        <app-left-sidebar></app-left-sidebar>
+        <div class="flex-1 mt-16 ml-72 p-6">
+            <div *ngIf="loading$ | async" class="loader-overlay">
+                <div class="loader"></div>
+            </div>
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

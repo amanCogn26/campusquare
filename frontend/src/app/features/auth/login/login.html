@@ -1,0 +1,66 @@
+<nav class="w-full border-b border-gray-200 top-0 left-0 z-50 fixed cursor-pointer px-16" routerLink="/">
+    <div class="max-w-7xl mx-auto p-5">
+        <div class="flex items-center justify-between h-16">
+
+            <!-- Logo -->
+            <div class="flex items-center gap-2">
+                <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold">
+                    C
+                </div>
+
+                <span class="text-xl font-bold text-gray-800">
+                    CampuSquare
+                </span>
+            </div>
+        </div>
+    </div>
+</nav>
+<form class="mt-32" [formGroup]="loginFormData" (ngSubmit)="formSubmit()">
+
+    <div class="grid gap-1 w-[30%] mx-auto mt-2 border p-4 rounded-2xl">
+
+        <h1 class="text-center font-bold text-xl mt-2">Login</h1>
+
+        <!-- College Email -->
+        <div class="grid gap-1 mt-4">
+            <label class="text-zinc-950 dark:text-white" for="collegeEmail">
+                College Email
+            </label>
+
+            <input type="email" placeholder="student@college.edu" formControlName="collegeEmail"
+                class="mr-2.5 mb-2 h-full min-h-5.5 w-full rounded-lg border border-zinc-200 bg-white px-4 py-1 text-sm font-medium text-zinc-950">
+        </div>
+
+        <!-- Password -->
+        <div class="grid gap-1">
+            <label class="text-zinc-950 dark:text-white" for="password">
+                Password
+            </label>
+
+            <input type="password" placeholder="Enter your password" formControlName="password"
+                class="mr-2.5 mb-2 h-full min-h-5.5 w-full rounded-lg border border-zinc-200 bg-white px-4 py-1 text-sm font-medium text-zinc-950">
+        </div>
+
+        <button type="submit"
+            class="cursor-pointer mt-3 flex w-full items-center justify-center rounded-lg bg-blue-600 px-4 py-4 text-sm font-medium text-white hover:bg-blue-700">
+
+            Login
+
+        </button>
+
+        <div class="text-sm text-center mt-2">
+            Don't have an account?
+            <a routerLink="/register" class="text-blue-600 hover:underline">
+                Register
+            </a>
+        </div>
+
+        <div class="text-sm text-center mt-1">
+            <a routerLink="/forgot-password" class="text-blue-600 hover:underline">
+                Forgot Password?
+            </a>
+        </div>
+
+    </div>
+
+</form>

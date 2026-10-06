@@ -1,0 +1,41 @@
+<div class="flex justify-center">
+
+    <div class="bg-white w-110 max-w-2xl rounded-2xl shadow-xl border-t-red-300 px-6 py-4">
+
+        <h1 class="text-3xl font-bold text-center mb-2">
+            Create College
+        </h1>
+
+        <form [formGroup]="collegeFormData" (ngSubmit)="formSubmit()" class="flex flex-col">
+
+            <div>
+                <label class="block" for="collegeName">College Name</label>
+                <input type="text" formControlName="collegeName" class="mr-2.5 mb-2 h-full min-h-5.5 w-full rounded-lg border border-zinc-200 bg-white px-4 py-3 text-sm font-medium text-zinc-950"
+                    placeholder="Enter College Name">
+            </div>
+
+            <div>
+                <label class="block" for="emailDomain">Email Domain</label>
+                <input type="text" formControlName="emailDomain" placeholder="abc@campusquare.in"
+                    class="mr-2.5 mb-2 h-full min-h-5.5 w-full rounded-lg border border-zinc-200 bg-white px-4 py-3 text-sm font-medium text-zinc-950">
+            </div>
+
+            <div>
+                <label class="block" for="logo">Logo</label>
+                <input type="text" formControlName="logo" placeholder="Enter your logo" class="mr-2.5 mb-2 h-full min-h-5.5 w-full rounded-lg border border-zinc-200 bg-white px-4 py-3 text-sm font-medium text-zinc-950">
+            </div>
+
+            <div>
+                <label class="block" for="city">City</label>
+                <input type="text" formControlName="city" placeholder="Enter your City" class="mr-2.5 mb-2 h-full min-h-5.5 w-full rounded-lg border border-zinc-200 bg-white px-4 py-3 text-sm font-medium text-zinc-950">
+            </div>
+            <div>
+                <label class="block" for="state">State</label>
+                <input type="text" placeholder="Enter your State" formControlName="state" class="mr-2.5 mb-2 h-full min-h-5.5 w-full rounded-lg border border-zinc-200 bg-white px-4 py-3 text-sm font-medium text-zinc-950">
+            </div>
+
+            <button type="submit" class="w-full cursor-pointer hover:bg-blue-500 mt-2 rounded-xl outline-none p-2 bg-blue-600">Create</button>
+
+        </form>
+    </div>
+</div>

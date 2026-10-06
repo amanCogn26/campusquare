@@ -1,0 +1,169 @@
+<div class="my-4">
+    <div class="overflow-hidden px-8 rounded-3xl bg-gray-100 shadow-md">
+        <!-- Header -->
+        <div class="py-4 w-full">
+            <div class="flex justify-between">
+                <div class="flex gap-3 cursor-pointer">
+                    <div>
+                        <img src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?w=1080" alt="profile"
+                            class="rounded-full w-12 h-12">
+                        <!-- <img src={{post.profileImageUrl}} alt="profile" class="rounded-full w-12 h-12"> -->
+                    </div>
+                    <div class="flex flex-col">
+                        <h3 class="font-medium">{{(post.name) | uppercase}}</h3>
+                        <p class="text-sm text-gray-500">
+                            STUDENT
+                        </p>
+                        <p class="text-xs text-gray-400">{{post.createdAt}}</p>
+                    </div>
+                </div>
+                <button class="hover:bg-gray-100 text-4xl rounded-full cursor-pointer" title="Delete Post"
+                    (click)="deletePost(post.postId)" *ngIf="authUserId==post.userId">
+                🚮
+                </button>
+            </div>
+        </div>
+
+        <!-- post image -->
+        <div>
+            <img src={{post.postImageUrl}}>
+        </div>
+
+        <!-- Content -->
+        <div class="mt-4">
+            <p class="text-gray-700 leading-relaxed">
+                {{post.description}}
+            </p>
+        </div>
+
+        <!-- Actions -->
+        <div class="border-t border-b mt-2 mb-4">
+            <div class="grid grid-cols-3">
+                <span
+                    class="py-3 hover:bg-gray-100 transition font-medium text-gray-400 cursor-pointer flex items-center"
+                    (click)="like(post.postId)" [class.text-red-500]="post.likeByCurrentUser"
+                    [class.text-gray-200]="!post.likeByCurrentUser">
+                    <button class="text-3xl" title="Like">♥</button>{{post.likeCount == 0 ? '' :post.likeCount}}
+                </span>
+
+                <button class="py-3 hover:bg-gray-100 transition font-medium text-gray-600 cursor-pointer"
+                    (click)="viewPost(post)">
+                    💬 {{post.commentCount==0?'':post.commentCount}}
+                </button>
+
+                <button class="py-3 hover:bg-gray-100 transition font-medium text-gray-600">
+                    ↗️ Share
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- pop up/ post view -->
+<div class="my-4 inset-0 fixed z-50 shadow-sm p-5 flex justify-center bg-black/50 items-center" *ngIf="isPostView">
+    <div class="bg-gray-100 rounded-sm shadow-md w-130 max-h-[90vh] overflow-y-auto">
+        <!-- Header -->
+        <div class="pt-4 w-full px-8 shadow-sm pb-2">
+            <div class="flex justify-between items-start">
+                <div class="flex gap-3 cursor-pointer" routerLink="/profile">
+                    <div>
+                        <img src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?w=1080" alt="profile"
+                            class="rounded-full w-12 h-12">
+                        <!-- <img src={{post.profileImageUrl}} alt="profile" class="rounded-full w-12 h-12"> -->
+                    </div>
+                    <div class="flex flex-col">
+                        <h4 class="font-medium">{{(post.name) | uppercase}}</h4>
+                        <!-- <p class="text-sm text-gray-500">
+                            STUDENT
+                        </p> -->
+                        <p class="text-xs text-gray-400">{{post.createdAt}}</p>
+                    </div>
+                </div>
+                <button (click)="viewPost(post)" class="font-bold text-3xl cursor-pointer">X</button>
+            </div>
+        </div>
+
+        <div class="">
+            <img src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?w=1080"
+                class="w-full max-h-[40vh] object-contain">
+            <!-- <img src={{post.postImageUrl}} class="w-full aspect-ratio: 4 / 5; object-cover"> -->
+        </div>
+
+        <!-- Content -->
+        <div class="mt-4">
+            <p class="text-gray-700 leading-relaxed mx-5">
+                {{post.description}}
+            </p>
+        </div>
+
+        <!-- Actions -->
+        <div class="border-t border-b mt-2 mb-4 px-8">
+            <div class="grid grid-cols-3">
+                <span
+                    class="py-3 hover:bg-gray-100 transition font-medium text-gray-400 cursor-pointer flex items-center"
+                    (click)="like(post.postId)" [class.text-red-500]="post.likeByCurrentUser"
+                    [class.text-gray-200]="!post.likeByCurrentUser">
+                    <button class="text-3xl" title="Like">♥</button>{{post.likeCount == 0 ? '' :post.likeCount}}
+                </span>
+
+                <button class="py-3 hover:bg-gray-100 transition font-medium text-gray-600 cursor-pointer">
+                    <span class="font-bold">💬</span> {{post.commentCount==0?'':post.commentCount}}
+                </button>
+
+                <button class="py-3 hover:bg-gray-100 transition font-medium text-gray-600">
+                    ↗️ Share
+                </button>
+            </div>
+        </div>
+
+        <!-- Comments -->
+        <div class="flex items-center flex-col">
+
+            <span *ngIf="commentResponseData.length==0" class="text-center">Comment is Not Available</span>
+
+
+            <div class="space-y-3 w-full" *ngIf="commentResponseData.length>0">
+                <div class="flex flex-col gap-2 px-8 justify-evenly" *ngFor="let comment of commentResponseData">
+                    <div class="flex flex-col gap-2">
+                        <div class="flex justify-between">
+                            <div class="flex gap-4 items-start cursor-pointer" routerLink="/">
+                                <img src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?w=1080" alt=""
+                                    class="w-10 h-10 rounded-full">
+
+                                <p class="font-semibold text-sm">{{comment.name | uppercase}}</p>
+                            </div>
+                            <div class="flex gap-2 items-start">
+                                <p class="text-xs text-gray-700">
+                                    {{comment.createdAt | date:'shortTime'}}
+
+                                </p>
+                                <button
+                                    class="text-xs font-extrabold text-gray-700 cursor-pointer rounded-full p-1 hover:bg-gray-200 border" title="Delete Comment"
+                                    (click)="deleteComment(comment.commentId)" *ngIf="comment.userId===post.userId">
+                                    ***
+                                </button>
+                            </div>
+                        </div>
+                        <p class="text-sm left-14 relative text-gray-700">
+                            {{comment.commentText}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full">
+                <form class="flex gap-2 my-5 w-full px-4" [formGroup]="commentFormData"
+                    (ngSubmit)="formSubmit(post.postId)">
+                    <input type="text" placeholder="Write a comment..." formControlName="comment"
+                        class="flex-1 px-4 py-2 bg-gray-100 border rounded-full outline-none focus:ring-2 focus:ring-blue-500" />
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700">
+                        Send
+                    </button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
